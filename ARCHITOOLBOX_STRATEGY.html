@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArchiToolbox — Strategy Notes</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: #1a1a1a;
+      background: #f7f7f5;
+      padding: 1.5rem 1rem 4rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+      color: #111;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-top: 2.5rem;
+      margin-bottom: 0.75rem;
+      color: #111;
+      border-bottom: 2px solid #e0e0dc;
+      padding-bottom: 0.3rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-top: 1.75rem;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+
+    p { margin-bottom: 0.85rem; }
+
+    ul, ol {
+      margin: 0.5rem 0 0.85rem 1.4rem;
+    }
+
+    li { margin-bottom: 0.3rem; }
+
+    strong { font-weight: 700; }
+
+    em { font-style: italic; color: #555; }
+
+    code {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.82em;
+      background: #ebebeb;
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e0e0dc;
+      margin: 2rem 0;
+    }
+
+    .tagline {
+      font-size: 1.1rem;
+      font-weight: 700;
+      background: #111;
+      color: #fff;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      line-height: 1.5;
+    }
+
+    .tagline span {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: #aaa;
+      margin-top: 0.3rem;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #e0e0dc;
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      margin: 1rem 0;
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.15em 0.5em;
+      border-radius: 4px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+    }
+
+    .badge-green { background: #d4f4e0; color: #1a7a3a; }
+    .badge-yellow { background: #fef3c7; color: #92660a; }
+    .badge-red { background: #fde8e8; color: #9b2020; }
+    .badge-star { background: #111; color: #fff; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 1rem 0;
+    }
+
+    th {
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #666;
+      border-bottom: 2px solid #e0e0dc;
+      padding: 0.4rem 0.6rem;
+    }
+
+    td {
+      padding: 0.45rem 0.6rem;
+      border-bottom: 1px solid #f0f0ec;
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #888;
+      margin-bottom: 0.2rem;
+    }
+
+    .meta {
+      font-size: 0.82rem;
+      color: #888;
+      margin-top: 1.5rem;
+    }
+
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .not-build {
+      background: #fafafa;
+      border-left: 3px solid #e0e0dc;
+      padding: 0.5rem 0.75rem;
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+      border-radius: 0 6px 6px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>ArchiToolbox</h1>
+  <p style="color:#888; font-size:0.9rem; margin-bottom:0.5rem;">Strategy Notes — Aprile 2026</p>
+
+  <div class="tagline">
+    "Dovrebbe volerci 5 minuti. Con ArchiToolbox, ci vogliono 5 secondi."
+    <span>Pratiche che rubano ore. Strumenti che le restituiscono.</span>
+  </div>
+
+  <hr>
+
+  <h2>L'idea</h2>
+  <p>Una collezione di piccoli tool desktop che risolvono problemi dolorosi, ripetitivi e specifici per il contesto italiano: architetti, geometri, ingegneri. Ogni tool funziona da solo, senza bisogno degli altri. Un launcher opzionale (ArchiToolbox) li tiene insieme per la gestione degli aggiornamenti e fa da vetrina per i nuovi strumenti — come JetBrains Toolbox, molto più semplice.</p>
+
+  <hr>
+
+  <h2>Value Proposition</h2>
+  <p><strong>Non si vende software. Si vende tempo e certezza.</strong></p>
+  <p>L'utente target non è un power user che ama configurare strumenti. È un professionista che sbatte contro lo stesso muro burocratico ogni volta, perde un pomeriggio, e vuole solo che qualcuno lo risolva. Il valore è l'expertise cristallizzata: il workflow corretto, nell'ordine corretto, con i casi limite già gestiti. Uno script che "funziona per lo più" non è un sostituto.</p>
+  <p>Valore secondario: <strong>pace of mind al momento della presentazione.</strong> Un professionista che ha inviato 50 pratiche con lo stesso tool senza problemi smette di dubitarne. Quella fiducia è difficile da scalzare.</p>
+
+  <hr>
+
+  <h2>Mercato</h2>
+  <p>Professionisti tecnici italiani che presentano a:</p>
+  <ul>
+    <li><strong>Agenzia delle Entrate</strong> — DOCFA (variazioni catastali), Pregeo (rilievi topografici)</li>
+    <li><strong>Comuni</strong> — CILA, SCIA, SUE (pratiche edilizie)</li>
+    <li><strong>Entratel / Desktop Telematico</strong></li>
+  </ul>
+  <p>Il <strong>non-abituale</strong> è il cliente migliore. Fa il DOCFA una volta all'anno, ricorda benissimo il dolore, non ha un workflow consolidato da difendere, e €10 non è nulla rispetto al pomeriggio che altrimenti perderebbe.</p>
+
+  <hr>
+
+  <h2>Moat</h2>
+  <p>Non tecnico — gli algoritmi sono semplici. Il moat è:</p>
+  <ol>
+    <li><strong>Domain knowledge codificata come software funzionante.</strong> L'ordine del pipeline, i casi limite, le regole italiane. Arrivarci richiede mesi di test su file reali.</li>
+    <li><strong>Fiducia costruita sulla correttezza.</strong> Chi usa lo stesso tool per 50 pratiche senza problemi non cambia.</li>
+    <li><strong>Ampiezza nel tempo.</strong> Un tool si copia. 6–8 tool sotto un brand comune, tutti su problemi specifici italiani, sono molto più difficili da replicare.</li>
+    <li><strong>Passaparola in una comunità professionale piccola.</strong> Un evangelista in uno studio raggiunge tutta la rete.</li>
+  </ol>
+
+  <hr>
+
+  <h2>Distribuzione</h2>
+  <ul>
+    <li><strong>Passaparola</strong> come vettore primario</li>
+    <li><strong>Corsi CFP/CPD</strong> come canale secondario:
+      <ul>
+        <li>Architetti, ingegneri e geometri devono accumulare crediti formativi ogni anno</li>
+        <li>Un corso dal titolo evocativo ("DOCFA senza impazzire") non ha bisogno di pubblicità</li>
+        <li>Il tool è la spina dorsale del corso; il corso costruisce fiducia nel tool</li>
+        <li>Ogni iscritto è un lead caldo; la lista iscritti è l'asset più prezioso</li>
+        <li>Il corso <strong>non è revenue</strong> — è un annuncio pubblicitario con crediti formativi inclusi</li>
+      </ul>
+    </li>
+  </ul>
+
+  <hr>
+
+  <h2>Business Model</h2>
+  <p><strong>Acquisto singolo per tool, prezzo basso (€5–10).</strong></p>
+  <ul>
+    <li>Abbastanza semplice per uno sviluppatore solo senza overhead infrastrutturale</li>
+    <li>Corrisponde a come questi professionisti comprano tool</li>
+    <li>Pagamento via Gumroad o Lemon Squeezy — gestiscono l'IVA UE automaticamente, zero costo fisso, percentuale solo sulle vendite</li>
+  </ul>
+  <p><strong>Con 3+ tool:</strong> abbonamento annuale ArchiToolbox (€8–12/mese) — giustificato dall'aggiornamento delle specifiche (le regole DOCFA possono cambiare).</p>
+  <p>Crediti, freemium e prezzi per conversione sono modelli sbagliati qui: il costo per conversione è compute locale sulla macchina dell'utente. Non c'è nulla da misurare e nessun server da proteggere.</p>
+
+  <hr>
+
+  <h2>Infrastruttura (volutamente minimale)</h2>
+  <p>Desktop-first è una scelta di business, non solo tecnica:</p>
+  <ul>
+    <li><strong>Zero costo per utente</strong> — compute locale, nessun server, nessun problema di scaling</li>
+    <li><strong>Nessun problema di privacy</strong> — planimetrie e dati catastali non escono mai dalla macchina</li>
+    <li><strong>Funziona offline</strong></li>
+  </ul>
+  <p>Cosa serve davvero:</p>
+  <ul>
+    <li><strong>Version check:</strong> un file JSON statico su GitHub Pages o Cloudflare Pages (gratis), fetched all'avvio</li>
+    <li><strong>Distribuzione:</strong> GitHub Releases per i binari. Gumroad/LemonSqueezy per pagamento e consegna</li>
+    <li><strong>Subscription (futuro):</strong> Supabase free tier per auth e entitlement check</li>
+  </ul>
+  <p>Costo mensile fisso totale: <strong>~€0</strong> fino a quando il revenue da subscription giustifica Supabase (~€25/mese).</p>
+
+  <hr>
+
+  <h2>ArchiToolbox Launcher</h2>
+  <p>Una piccola app nella system tray, completamente opzionale. Se l'utente la adotta:</p>
+  <ul>
+    <li>Vede tutti i tool installati con versione corrente vs. ultima disponibile</li>
+    <li>Aggiornamento con un click</li>
+    <li>Sezione "Nuovi tool disponibili" — cross-promotion organica a costo zero</li>
+  </ul>
+  <p>Come funziona localmente: ogni tool scrive <code>~/.architoolbox/tools/&lt;toolname&gt;.json</code> all'installazione. Il launcher legge tutti quei file e li confronta con un <code>toolbox.json</code> hostato. Nessun database condiviso, nessun IPC tra tool, nessun hack al registry. Costruibile in una settimana quando esistono due tool.</p>
+
+  <hr>
+
+  <h2>Tool #1: DXF Cleaner per DOCFA <span class="badge badge-green">Esiste</span></h2>
+  <div class="card">
+    <p>Prepara un DXF da AutoCAD/BricsCAD per la presentazione DOCFA:</p>
+    <ul>
+      <li>Imposta versione DXF ad AC1015</li>
+      <li>Appiattisce a Z=0</li>
+      <li>Consolida i layer (tutto → layer 0, preserva DOCFA_POLIGONI e RIQUADRO)</li>
+      <li>Rimuove XREF, esplode blocchi, converte MTEXT→TEXT</li>
+      <li>Chiude polilinee aperte entro tolleranza</li>
+      <li>Rimuove annotazioni (HATCH, DIMENSION, ATTRIB, LEADER, ecc.)</li>
+      <li>PURGE + OVERKILL</li>
+      <li>Centra sull'origine</li>
+      <li>Valida DOCFA_POLIGONI (LWPOLYLINE chiuse, mapping colore→superficie A–G)</li>
+    </ul>
+    <p><em>Pain point documentato su: GeoLIVE, TopGeometri, professionearchitetto.it, geometra-roma.com.</em></p>
+  </div>
+
+  <hr>
+
+  <h2>Potential Future Tools</h2>
+
+  <h3>Ranking: effort vs. signal</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Tool</th>
+        <th>Effort</th>
+        <th>Signal</th>
+        <th>Ostacolo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>PDF/A Converter ⭐</td>
+        <td><span class="badge badge-green">Basso</span></td>
+        <td><span class="badge badge-green">Alto</span></td>
+        <td>Nessuno</td>
+      </tr>
+      <tr>
+        <td>CXF → DXF/PDF overlay</td>
+        <td><span class="badge badge-yellow">Medio</span></td>
+        <td><span class="badge badge-green">Alto</span></td>
+        <td>Nessuno</td>
+      </tr>
+      <tr>
+        <td>DOCFA Area Validator</td>
+        <td><span class="badge badge-yellow">Medio</span></td>
+        <td><span class="badge badge-green">Alto</span></td>
+        <td>Nessuno</td>
+      </tr>
+      <tr>
+        <td>CILA/SCIA Assembler</td>
+        <td><span class="badge badge-yellow">Medio</span></td>
+        <td><span class="badge badge-green">Alto</span></td>
+        <td>Variazione per comune</td>
+      </tr>
+      <tr>
+        <td>Bulk Catasto Fetcher</td>
+        <td><span class="badge badge-yellow">Medio</span></td>
+        <td><span class="badge badge-green">Alto</span></td>
+        <td>Rischio ToS AdE</td>
+      </tr>
+      <tr>
+        <td>PRG Zone Checker</td>
+        <td><span class="badge badge-red">Alto</span></td>
+        <td><span class="badge badge-star">Molto alto</span></td>
+        <td>Frammentazione dati</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <h3>Tool #2: PDF/A Converter &amp; Validator <span class="badge badge-star">⭐ Next</span></h3>
+  <div class="card">
+    <p><span class="label">Il problema</span><br>
+    Ogni presentazione SUE/SCIA/CILA richiede PDF/A. Molti rigetti avvengono perché il professionista ha prodotto un PDF normale e il portale lo ha rifiutato silenziosamente o con un errore criptico. Il decreto Salva Casa (in vigore maggio 2025) ha rimescolato tutta la modulistica.</p>
+    <p><span class="label">Il tool</span><br>
+    Trascina i PDF, ottieni output PDF/A con badge di conformità. Valida anche PDF esistenti. Sotto il cofano: LibreOffice o Ghostscript, entrambi gratuiti e locali.</p>
+    <p><span class="label">Perché costruirlo subito</span><br>
+    Scope minimo. Zero infrastruttura. Zero logica italiana nell'engine. Costruibile in giorni.</p>
+  </div>
+
+  <h3>Tool #3: CXF → Output Usabile (senza QGIS)</h3>
+  <div class="card">
+    <p><span class="label">Il problema</span><br>
+    I plugin QGIS per CXF esistono (Cxf_in, CXF to Shape Vestito, CatastoIT_GML_Merger_Pro) ma richiedono di installare e imparare QGIS. Il geometra tipico vuole scaricare il CXF dal portale AdE, trascinarlo in un tool, e ottenere un overlay DXF pulito o un PDF stampabile con le particelle su mappa satellitare.</p>
+    <p><span class="label">Il tool</span><br>
+    Trascina un CXF → scegli output (overlay DXF, PDF georeferenziato con basemap OSM, o shapefile) → fatto. Nessuna conoscenza GIS richiesta.</p>
+    <p><span class="label">Perché costruirlo</span><br>
+    I plugin QGIS provano la domanda; il gap è la UX. Stesso pattern di DXF Cleaner: l'algoritmo esiste ed è open, il valore è renderlo accessibile.</p>
+  </div>
+
+  <h3>Tool #4: PRG Zone Checker (più complesso, ceiling più alto)</h3>
+  <div class="card">
+    <p><span class="label">Il problema</span><br>
+    Un cliente chiama: "posso fare X sul mio lotto?" Bisogna trovare il PRG, la zona omogenea, gli indici urbanistici (IF, RC, H max, destinazione d'uso), e incrociare con il catasto. Attualmente significa navigare il geoportale del comune (se esiste), scaricare PDF o shapefile, aprirli in qualcosa, cercare la particella. Il Salva Casa ha reso le verifiche PRG ancora più frequenti.</p>
+    <p><span class="label">Il tool</span><br>
+    Inserisci comune + foglio/particella (o clicca su una mappa) → vedi la zona PRG evidenziata → leggi gli indici rilevanti. Google Maps ma per le norme urbanistiche.</p>
+    <p><span class="label">Percorso tecnico</span><br>
+    Web app statica (zero costi server) che legge endpoint WMS pubblici dei geoportali comunali direttamente dal browser, sovrapposti su Leaflet + OSM. Partire con 20 comuni maggiori (Torino, Milano, Roma, Bologna, ecc.).</p>
+    <p><span class="label">L'ostacolo</span><br>
+    Nessuno standard nazionale per i dati PRG. La copertura sarà sempre parziale. Richiede una lista curata di comuni supportati — lavoro di contenuto continuo, non solo engineering.</p>
+  </div>
+
+  <h3>Tool #5: DOCFA Area Validator</h3>
+  <div class="card">
+    <p><span class="label">Il problema</span><br>
+    Su Windows 64-bit, DOCFA importa un DXF pulito ma non calcola silenziosamente l'<code>area dichiarata</code>, bloccando l'intero modello 1N. L'utente non sa perché. Bug documentato su GeoLIVE con molti "anche io".</p>
+    <p><span class="label">Il tool</span><br>
+    Pre-valida la geometria delle polilinee, calcola le superfici DOCFA per colore (categorie A–G), esporta un riepilogo che il professionista può verificare prima della presentazione.</p>
+  </div>
+
+  <h3>Tool #6: CILA/SCIA Document Assembler</h3>
+  <div class="card">
+    <p><span class="label">Il problema</span><br>
+    Ogni pratica = un set specifico di documenti in ordine specifico, nominati in modo coerente, tutti in PDF/A, molti da firmare digitalmente. I professionisti assemblano tutto manualmente ogni volta.</p>
+    <p><span class="label">Il tool</span><br>
+    Definisci gli slot per un tipo di pratica (relazione tecnica, planimetria stato attuale, planimetria progetto…), trascina i file, rinomina automaticamente secondo la convenzione del comune, valida conformità PDF/A, esporta uno ZIP pronto per l'upload.</p>
+    <p><span class="label">L'ostacolo</span><br>
+    Naming convention diverse per comune. Costruisci prima il PDF/A Converter; questo tool può assorbirlo come dipendenza.</p>
+  </div>
+
+  <h3>Tool #7: Bulk Catasto Data Fetcher</h3>
+  <div class="card">
+    <p><span class="label">Il problema</span><br>
+    Gestire un condominio con 20 unità significa 20 download manuali di visure e planimetrie dal portale Sister/AdE, uno per uno.</p>
+    <p><span class="label">Il tool</span><br>
+    Input: CSV di foglio/particella/subalterno → download batch di tutte le visure e planimetrie → cartella output organizzata.</p>
+    <p><span class="label">L'ostacolo</span><br>
+    Probabilmente in conflitto con i ToS dell'Agenzia delle Entrate per accesso automatizzato. Verificare prima di costruire.</p>
+  </div>
+
+  <h3>Tool #8: Pregeo / Digital Signature Debugger</h3>
+  <div class="card">
+    <p><span class="label">Il problema</span><br>
+    La presentazione di libretti misure via Pregeo fallisce con errori criptici ("Rejected by policy", errori di validazione firma). Diagnosticare richiede conoscenza di quale certificate store controllare, quale versione del Desktop Telematico ha introdotto la regressione.</p>
+    <p><span class="label">Il tool</span><br>
+    Diagnostica l'ambiente locale e presenta una soluzione in linguaggio semplice.</p>
+    <p><span class="label">Nota</span><br>
+    Tool difensivo, non di workflow. Potenziale di monetizzazione basso. Meglio come contenuto gratuito (guida/checklist) che costruisce fiducia.</p>
+  </div>
+
+  <hr>
+
+  <h2>Cosa NON costruire</h2>
+  <div class="not-build"><strong>APE:</strong> mela.work, piattaforme SIPEE regionali, molti tool commerciali. Spazio affollato.</div>
+  <div class="not-build"><strong>Computo metrico:</strong> PriMus, ACCA, decine di altri. Dominio complesso, doloroso e costoso da costruire. Hard pass.</div>
+  <div class="not-build"><strong>GIS completo per catasto:</strong> TopGeometri vende Geocat e CorrMap. Non vale la pena competere frontalmente.</div>
+
+  <hr>
+
+  <h2>Segnali da cercare</h2>
+  <p>Il segnale principale: un thread di forum dove 30+ persone rispondono "anche io" a una lamentela su tempo sprecato in un task ripetitivo specifico. Quello è il prossimo tool.</p>
+  <p>Community da monitorare:</p>
+  <ul>
+    <li><a href="https://forum.topgeometri.it">forum.topgeometri.it</a></li>
+    <li><a href="https://www.geolive.org/forum">geolive.org/forum</a></li>
+    <li><a href="https://www.professionearchitetto.it/bacheca">professionearchitetto.it/bacheca</a></li>
+    <li>Facebook: "TECNICI FORUM - architetti geometri ingegneri periti"</li>
+  </ul>
+
+  <p class="meta">Note da conversazione strategica — Aprile 2026</p>
+
+</body>
+</html>
