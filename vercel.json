@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/download/dxfcleaner",
+      "destination": "https://yourname.gumroad.com/l/dxfcleaner",
+      "permanent": true
+    }
+  ]
+}
