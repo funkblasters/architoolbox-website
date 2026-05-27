@@ -125,6 +125,27 @@ esac
 # ── Extract new major ─────────────────────────────────────────────────────────
 IFS='.' read -r new_major _ _ <<< "$new_version"
 
+# ── Collect changelog for major releases ─────────────────────────────────────
+changelog=""
+if (( new_major > cur_major )) && [[ -f "$TOOLBOX_JSON" ]]; then
+    echo -e "\n${BOLD}Novità in v${new_version}${RESET} ${DIM}(riga vuota per terminare)${RESET}"
+    lines=()
+    while true; do
+        printf "  › "
+        IFS= read -r line || break
+        [[ -z "$line" ]] && break
+        lines+=("$line")
+    done
+    if (( ${#lines[@]} > 0 )); then
+        printf -v changelog '%s\n' "${lines[@]}"
+        changelog="${changelog%$'\n'}"
+    fi
+fi
+
+_changelog_file=$(mktemp)
+trap 'rm -f "$_changelog_file"' EXIT
+printf '%s' "$changelog" > "$_changelog_file"
+
 # ── Confirm and update ────────────────────────────────────────────────────────
 echo -e "\n${BOLD}$appname${RESET}  ${DIM}$current${RESET} → ${YELLOW}$new_version${RESET}\n"
 
@@ -143,31 +164,49 @@ ok "releases/$appname/latest.json"
 
 # ── Update toolbox.json if the app is listed ──────────────────────────────────
 if [[ -f "$TOOLBOX_JSON" ]]; then
-    result=$(python3 -c "
-import json
-with open('$TOOLBOX_JSON') as f:
+    result=$(python3 - <<'PYEOF'
+import json, sys
+
+toolbox_json = sys.argv[1]
+appname      = sys.argv[2]
+new_version  = sys.argv[3]
+new_major    = sys.argv[4]
+changelog_file = sys.argv[5]
+
+with open(changelog_file) as cf:
+    changelog = cf.read()
+
+with open(toolbox_json) as f:
     data = json.load(f)
+
 found = False
 for tool in data.get('tools', []):
-    if tool.get('id') == '$appname' and tool.get('status') != 'coming-soon':
-        tool['latest'] = '$new_version'
+    if tool.get('id') == appname and tool.get('status') != 'coming-soon':
+        tool['latest'] = new_version
         lbm = tool.setdefault('latest_by_major', {})
-        lbm['$new_major'] = '$new_version'
+        lbm[new_major] = new_version
+        if changelog:
+            notes = tool.setdefault('upgrade_notes', {})
+            notes[new_major] = changelog
         found = True
-with open('$TOOLBOX_JSON', 'w') as f:
+
+with open(toolbox_json, 'w') as f:
     json.dump(data, f, indent=2, ensure_ascii=False)
     f.write('\n')
+
 print('updated' if found else 'not-found')
-")
+PYEOF
+    "$TOOLBOX_JSON" "$appname" "$new_version" "$new_major" "$_changelog_file")
     if [[ "$result" == "updated" ]]; then
         ok "toolbox.json"
+        if [[ -n "$changelog" ]]; then
+            ok "upgrade_notes[\"$new_major\"] written"
+        else
+            note "No changelog entered — upgrade_notes[\"$new_major\"] not set"
+        fi
     else
         note "'$appname' not in toolbox.json — only latest.json updated"
     fi
-fi
-
-if (( new_major > cur_major )); then
-    note "Major release — add upgrade_notes[\"$new_major\"] to toolbox.json before deploying"
 fi
 
 echo ""
