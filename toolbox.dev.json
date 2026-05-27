@@ -31,9 +31,9 @@
       "name": "Test App",
       "description": "Ambiente di test per aggiornamenti e upgrade",
       "status": "stable",
-      "latest": "1.0.0",
+      "latest": "1.1.0",
       "latest_by_major": {
-        "1": "1.0.0"
+        "1": "1.1.0"
       },
       "download_url": "https://architoolbox.io/download/test-app",
       "icon_url": "https://www.architoolbox.io/icons/test-app.svg",
