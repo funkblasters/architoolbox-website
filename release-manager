@@ -20,7 +20,8 @@ usage() {
     cat >&2 <<EOF
 
 ${BOLD}Usage:${RESET}
-  $(basename "$0") -A <appname> ( -P | -M | -B | -V <version> )
+  $(basename "$0") -A <appname> ( -P | -M | -B | -V <version> ) [-D]
+  $(basename "$0") -R
 
 ${BOLD}Options:${RESET}
   -A, --appname <name>    App to release — must exist as releases/<name>/
@@ -28,11 +29,15 @@ ${BOLD}Options:${RESET}
   -M, --minor             Bump minor   (1.2.3 → 1.3.0, resets patch)
   -B, --bump              Bump major   (1.2.3 → 2.0.0, resets minor and patch)
   -V, --version <ver>     Set explicit version (must be > current, format X.Y.Z)
+  -D, --dev               Update toolbox.dev.json only (skip toolbox.json)
+  -R, --reset             Reset toolbox.dev.json to match toolbox.json + test-app at 1.0.0
 
 ${BOLD}Examples:${RESET}
   $(basename "$0") --appname dxfcleaner --patch
   $(basename "$0") -A datcleaner -M
   $(basename "$0") -A dxfcleaner -V 1.3.0
+  $(basename "$0") -A test-app -P -D
+  $(basename "$0") -R
 
 EOF
     exit 1
@@ -40,8 +45,9 @@ EOF
 
 # ── Argument parsing ──────────────────────────────────────────────────────────
 appname=''
-mode=''          # patch | minor | major | explicit
+mode=''          # patch | minor | major | explicit | reset
 new_explicit=''
+dev_only=false
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -49,23 +55,76 @@ while [[ $# -gt 0 ]]; do
             [[ $# -ge 2 ]] || die "--appname requires an argument"
             appname="$2"; shift 2 ;;
         -P|--patch)
-            [[ -z "$mode" ]] || die "only one of -P/-M/-B/-V is allowed"
+            [[ -z "$mode" ]] || die "only one of -P/-M/-B/-V/-R is allowed"
             mode=patch; shift ;;
         -M|--minor)
-            [[ -z "$mode" ]] || die "only one of -P/-M/-B/-V is allowed"
+            [[ -z "$mode" ]] || die "only one of -P/-M/-B/-V/-R is allowed"
             mode=minor; shift ;;
         -B|--bump)
-            [[ -z "$mode" ]] || die "only one of -P/-M/-B/-V is allowed"
+            [[ -z "$mode" ]] || die "only one of -P/-M/-B/-V/-R is allowed"
             mode=major; shift ;;
         -V|--version)
             [[ $# -ge 2 ]] || die "--version requires an argument"
-            [[ -z "$mode" ]] || die "only one of -P/-M/-B/-V is allowed"
+            [[ -z "$mode" ]] || die "only one of -P/-M/-B/-V/-R is allowed"
             mode=explicit
             new_explicit="$2"; shift 2 ;;
+        -D|--dev)
+            dev_only=true; shift ;;
+        -R|--reset)
+            [[ -z "$mode" ]] || die "only one of -P/-M/-B/-V/-R is allowed"
+            mode=reset; shift ;;
         -h|--help) usage ;;
         *) die "unknown option: $1" ;;
     esac
 done
+
+# ── Reset mode: rebuild toolbox.dev.json from toolbox.json + fresh test-app ───
+if [[ "$mode" == "reset" ]]; then
+    [[ -f "$TOOLBOX_JSON" ]] || die "toolbox.json not found"
+    dev_json="$SCRIPT_DIR/toolbox.dev.json"
+    test_latest="$RELEASES_DIR/test-app/latest.json"
+
+    python3 - "$TOOLBOX_JSON" "$dev_json" "$test_latest" <<'PYEOF'
+import json, sys
+
+toolbox_json  = sys.argv[1]
+dev_json      = sys.argv[2]
+test_latest   = sys.argv[3]
+
+with open(toolbox_json) as f:
+    data = json.load(f)
+
+# Remove test-app if somehow present, then append fresh baseline
+data['tools'] = [t for t in data['tools'] if t.get('id') != 'test-app']
+data['tools'].append({
+    "id": "test-app",
+    "name": "Test App",
+    "description": "Ambiente di test per aggiornamenti e upgrade",
+    "status": "stable",
+    "latest": "1.0.0",
+    "latest_by_major": {"1": "1.0.0"},
+    "download_url": "https://architoolbox.io/download/test-app",
+    "icon_url": "https://www.architoolbox.io/icons/test-app.svg",
+    "accent": "oklch(0.55 0.22 270)"
+})
+
+with open(dev_json, 'w') as f:
+    json.dump(data, f, indent=2, ensure_ascii=False)
+    f.write('\n')
+
+with open(test_latest, 'w') as f:
+    json.dump({"version": "1.0.0", "latest_by_major": {"1": "1.0.0"},
+               "download_url": "https://architoolbox.io/download/test-app"},
+              f, indent=2, ensure_ascii=False)
+    f.write('\n')
+PYEOF
+
+    echo ""
+    ok "toolbox.dev.json reset to match toolbox.json"
+    ok "releases/test-app/latest.json → 1.0.0"
+    echo ""
+    exit 0
+fi
 
 [[ -n "$appname" ]] || die "-A/--appname is required"
 [[ -n "$mode"    ]] || die "one of -P, -M, -B, -V is required"
@@ -162,15 +221,23 @@ with open('$latest_json', 'w') as f:
 "
 ok "releases/$appname/latest.json"
 
-# ── Update toolbox.json if the app is listed ──────────────────────────────────
-if [[ -f "$TOOLBOX_JSON" ]]; then
-    result=$(python3 - <<'PYEOF'
+# ── Update catalog files that list this app ───────────────────────────────────
+any_catalog_updated=false
+if [[ "$dev_only" == true ]]; then
+    catalog_files=("$SCRIPT_DIR/toolbox.dev.json")
+else
+    catalog_files=("$SCRIPT_DIR/toolbox.json" "$SCRIPT_DIR/toolbox.dev.json")
+fi
+for catalog_file in "${catalog_files[@]}"; do
+    [[ -f "$catalog_file" ]] || continue
+    label=$(basename "$catalog_file")
+    result=$(python3 - "$catalog_file" "$appname" "$new_version" "$new_major" "$_changelog_file" <<'PYEOF'
 import json, sys
 
-toolbox_json = sys.argv[1]
-appname      = sys.argv[2]
-new_version  = sys.argv[3]
-new_major    = sys.argv[4]
+toolbox_json   = sys.argv[1]
+appname        = sys.argv[2]
+new_version    = sys.argv[3]
+new_major      = sys.argv[4]
 changelog_file = sys.argv[5]
 
 with open(changelog_file) as cf:
@@ -196,17 +263,21 @@ with open(toolbox_json, 'w') as f:
 
 print('updated' if found else 'not-found')
 PYEOF
-    "$TOOLBOX_JSON" "$appname" "$new_version" "$new_major" "$_changelog_file")
+)
     if [[ "$result" == "updated" ]]; then
-        ok "toolbox.json"
-        if [[ -n "$changelog" ]]; then
-            ok "upgrade_notes[\"$new_major\"] written"
-        else
-            note "No changelog entered — upgrade_notes[\"$new_major\"] not set"
-        fi
-    else
-        note "'$appname' not in toolbox.json — only latest.json updated"
+        ok "$label"
+        any_catalog_updated=true
     fi
+done
+
+if [[ "$any_catalog_updated" == false ]]; then
+    note "'$appname' not found in any catalog — only latest.json updated"
+fi
+
+if [[ -n "$changelog" ]] && [[ "$any_catalog_updated" == true ]]; then
+    ok "upgrade_notes[\"$new_major\"] written"
+elif (( new_major > cur_major )) && [[ -z "$changelog" ]]; then
+    note "No changelog entered — upgrade_notes[\"$new_major\"] not set"
 fi
 
 echo ""
