@@ -10,7 +10,12 @@
         "1": "1.0.1",
         "2": "2.0.0"
       },
+      "upgrade_notes": {
+        "2": "Motore di pulizia completamente riscritto, più veloce e più preciso.\n\nSupporto ai nuovi standard colore ADE 2024 per la mappatura superfici DOCFA.\n\nNuova anteprima interattiva per layer prima della pulizia.\n\nRisolti tutti i bug noti sulla gestione dei blocchi annidati."
+      },
       "download_url": "https://architoolbox.io/download/dxfcleaner",
+      "upgrade_url": "https://architoolbox.io/upgrade/dxfcleaner",
+      "icon_url": "https://www.architoolbox.io/icons/dxfcleaner.svg",
       "accent": "oklch(0.55 0.22 15)"
     },
     {
@@ -23,6 +28,7 @@
         "1": "1.0.0"
       },
       "download_url": "https://architoolbox.io/download/datcleaner",
+      "icon_url": "https://www.architoolbox.io/icons/datcleaner.svg",
       "accent": "#00aac2"
     },
     {

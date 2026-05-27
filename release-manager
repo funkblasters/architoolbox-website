@@ -166,4 +166,8 @@ print('updated' if found else 'not-found')
     fi
 fi
 
+if (( new_major > cur_major )); then
+    note "Major release — add upgrade_notes[\"$new_major\"] to toolbox.json before deploying"
+fi
+
 echo ""
