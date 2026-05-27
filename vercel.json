@@ -4,6 +4,21 @@
       "source": "/download/dxfcleaner",
       "destination": "https://yourname.gumroad.com/l/dxfcleaner",
       "permanent": true
+    },
+    {
+      "source": "/download/datcleaner",
+      "destination": "https://yourname.gumroad.com/l/datcleaner",
+      "permanent": true
+    },
+    {
+      "source": "/upgrade/dxfcleaner",
+      "destination": "https://yourname.gumroad.com/l/dxfcleaner-upgrade",
+      "permanent": false
+    },
+    {
+      "source": "/upgrade/datcleaner",
+      "destination": "https://yourname.gumroad.com/l/datcleaner-upgrade",
+      "permanent": false
     }
   ]
 }
