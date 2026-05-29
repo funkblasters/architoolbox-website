@@ -27,19 +27,6 @@
       "accent": "#00aac2"
     },
     {
-      "id": "test-app",
-      "name": "Test App",
-      "description": "Ambiente di test per aggiornamenti e upgrade",
-      "status": "stable",
-      "latest": "1.1.0",
-      "latest_by_major": {
-        "1": "1.1.0"
-      },
-      "download_url": "https://architoolbox.io/download/test-app",
-      "icon_url": "https://www.architoolbox.io/icons/test-app.svg",
-      "accent": "oklch(0.55 0.22 270)"
-    },
-    {
       "id": "tolleranze",
       "name": "Tolleranze Costruttive",
       "description": "Calcolo tolleranze Decreto Salva Casa",
@@ -56,6 +43,19 @@
       "eta": "2027",
       "signup_url": "https://architoolbox.io/notify/rai",
       "accent": "oklch(0.55 0.22 195)"
+    },
+    {
+      "id": "test-app",
+      "name": "Test App",
+      "description": "Ambiente di test per aggiornamenti e upgrade",
+      "status": "stable",
+      "latest": "1.0.0",
+      "latest_by_major": {
+        "1": "1.0.0"
+      },
+      "download_url": "https://architoolbox.io/download/test-app",
+      "icon_url": "https://www.architoolbox.io/icons/test-app.svg",
+      "accent": "oklch(0.55 0.22 270)"
     }
   ]
 }
